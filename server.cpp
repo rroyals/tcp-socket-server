@@ -107,38 +107,35 @@ int main()
           //printf("Added Socket %i at index %i\n", new_socket, i);
 
           break;
+          
         }
       }
     }
 
     for (auto i = 0; i < MAX_CLIENTS; i++)
     {
-
+      
       socket_dest = client_socket[i];
       if (FD_ISSET(socket_dest, &fd_master))
       {
-
+        
         int recv_data = recv(socket_dest, buffer, 4096, NULL);
         if (recv_data <= 0)
         {
+          
           getpeername(socket_dest, (struct sockaddr*)&address, &address_size);
           printf("Disconect -> %s @ %i\n", inet_ntoa(address.sin_addr) , ntohs(address.sin_port));
 
           close(socket_dest);
           client_socket[i] = 0;
-
+          
         }
         else
         {
           send(socket_dest, buffer, strlen(buffer), NULL);
-
         }
-        
-
       }
-
     }
   }
-
   return 0;
 }
